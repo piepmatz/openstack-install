@@ -5,7 +5,7 @@
     - name: Copy install.sh
       copy: src=../../install.sh  dest=~/installation_copy/  mode="u=rwx"
     - name: Copy installation folder
-      copy: src=../../installation/  dest=~/installation_copy/installation  mode="u=rwx"
+      copy: src="../../installation{{ regionId }}/"  dest=~/installation_copy/installation  mode="u=rwx"
     - name: Overwrite certain installation scripts
       copy: src={{ item }}  dest=~/installation_copy/installation backup=yes  mode="u=rwx"
       with_items:

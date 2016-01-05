@@ -2,4 +2,6 @@
 - include: playbooks/install_tools.yml
 - include: playbooks/install_ansible.yml
 - include: playbooks/libvirt.yml
-- include: playbooks/copy_installation_script.yml
+- include: playbooks/copy_installation_script.yml 
+  vars:
+    regionId: "{{ regionId }}"

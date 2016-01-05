@@ -1,3 +1,0 @@
----
-#applies changes to the environment that we think are useful, but are NOT part of the tutorial
-- include: default_allow_all_network_traffic.yml

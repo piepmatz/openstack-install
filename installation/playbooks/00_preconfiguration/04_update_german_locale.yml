@@ -1,8 +1,0 @@
----
-- name: Preconfiguration > update german locale
-  hosts: all
-  sudo: yes
-  tasks:
-
-  - name: "Build German locale to avoid problems with dev machines"
-    shell: locale-gen de_DE.UTF-8; update-locale LANG=de_DE.UTF-8

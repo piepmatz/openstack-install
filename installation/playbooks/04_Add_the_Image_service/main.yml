@@ -1,4 +1,0 @@
----
-# http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_glance.html
-- include: 02_Install_and_configure/main.yml
-- include: 03_verify_operation.yml

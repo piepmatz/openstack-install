@@ -1,29 +1,24 @@
 Vagrant.configure("2") do |config|
-  config.vm.define :datacenter1 do |datacenter|
-    datacenter.vm.box = "sputnik13/trusty64"
-    datacenter.vm.provider :libvirt do |domain|
-      domain.memory = 26000
-      domain.cpus = 16
-      domain.nested = true
-      domain.volume_cache = 'none'
-    end
-    datacenter.vm.network :private_network, :ip => "192.168.121.101"
-  end
+  (1..2).each do |regionId| 
+    config.vm.define "region#{regionId}" do |region|
+      region.vm.box = "sputnik13/trusty64"
+      region.vm.provider :libvirt do |domain|
+        domain.memory = 26000
+        domain.cpus = 16
+        domain.nested = true
+        domain.volume_cache = 'none'
+      end
+      region.vm.network :private_network, :ip => "192.168.121.10#{regionId}"
 
-  config.vm.define :datacenter2 do |datacenter|
-    datacenter.vm.box = "sputnik13/trusty64"
-    datacenter.vm.provider :libvirt do |domain|
-      domain.memory = 26000
-      domain.cpus = 16
-      domain.nested = true
-      domain.volume_cache = 'none'
-    end
-    datacenter.vm.network :private_network, :ip => "192.168.121.102"
-  end
+      region.vm.provision :ansible do |ansible|
+        ansible.playbook = "playbook.yml"
+        ansible.extra_vars = {
+          regionId: "#{regionId}"
+        }
+        # https://gist.github.com/phantomwhale/9657134
+        ansible.raw_arguments = Shellwords.shellsplit(ENV['ANSIBLE_ARGS']) if ENV['ANSIBLE_ARGS']
+      end
 
-	config.vm.provision :ansible do |ansible|
-		ansible.playbook = "playbook.yml"
-    # https://gist.github.com/phantomwhale/9657134
-    ansible.raw_arguments = Shellwords.shellsplit(ENV['ANSIBLE_ARGS']) if ENV['ANSIBLE_ARGS']
-	end
+    end
+  end
 end
