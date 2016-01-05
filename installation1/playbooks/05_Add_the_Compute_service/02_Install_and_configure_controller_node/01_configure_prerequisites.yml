@@ -1,0 +1,61 @@
+---
+# http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_nova.html
+- name:  Add the Compute service > Install and configure controller node > configure prerequisites
+  hosts: controller
+  roles:
+    - config
+  sudo: True
+  gather_facts: False
+  environment: config.environment.admin
+
+  tasks:
+
+    # 1. create the database
+    # ----------------------
+
+    - name: 1.b Create the nova database
+      mysql_db: 
+        login_user: "{{ config.mysql_login_user }}"
+        login_password: "{{ config.mysql_login_password }}"
+        name: nova
+        state: present
+
+    - name: 1.c Grant proper access to the nova database
+      mysql_user: 
+        login_user: "{{ config.mysql_login_user }}"
+        login_password: "{{ config.mysql_login_password }}"
+        name: nova 
+        host: "{{ item }}" 
+        password: "{{ config.nova_mysql_password }}" 
+        priv: nova.*:ALL
+      with_items:
+        - "%"
+        - localhost
+
+    # 2. Source the admin credentials to gain access to admin-only CLI commands
+    # -------------------------------------------------------------------------
+    #
+    # This is done by `environment: config.environment.admin`
+
+    # 3. create the service credentials
+    # ---------------------------------
+
+    - name: 3.a.1 Delete the nova user if existent
+      shell: openstack user delete nova || true
+
+    - name: 3.a.2 Create the nova user
+      shell: "openstack user create --password {{ config.nova_user_password }} nova"
+
+    - name: 3.b Add the admin role to the nova user
+      shell: "openstack role add --project service --user nova admin"
+
+    - name: 3.c Create the nova service entity
+      shell: "openstack service create --name nova --description 'OpenStack Compute' compute"
+
+    # 4. Create the Compute service API endpoint
+    # ------------------------------------------
+  
+    - name: 4. Create the Compute service API endpoint
+      shell: 'openstack endpoint create --publicurl http://{{ config.controller_node_hostname }}:8774/v2/%\(tenant_id\)s --internalurl http://{{ config.controller_node_hostname }}:8774/v2/%\(tenant_id\)s --adminurl http://{{ config.controller_node_hostname }}:8774/v2/%\(tenant_id\)s --region RegionOne compute'
+
+

@@ -1,0 +1,18 @@
+---
+# http://docs.openstack.org/kilo/install-guide/install/apt/content/neutron-compute-node.html
+- name:  "Add a networking component > Install and configure compute node > finalize the installation"
+  hosts: compute
+  roles:
+    - config
+  sudo: True
+  gather_facts: False
+  tasks:
+
+  - name: "Restart the Compute and Networking services:"
+    service: 
+      name: "{{ item }}"
+      state: restarted
+    with_items:
+    - nova-compute
+    - neutron-plugin-openvswitch-agent
+

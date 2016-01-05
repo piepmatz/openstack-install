@@ -1,0 +1,85 @@
+---
+- name:  "Add Object Storage > Install and configure the storage nodes > configure prerequisites"
+  hosts: object
+  roles:
+    - config
+  sudo: True
+  # gather_facts: False is important for 4.0 Get the host part of the IP 
+  gather_facts: True
+  environment: config.environment.admin
+  vars: 
+    # Use this instead of /dev/sdb1
+    partition1: "/dev/{{ config.object_partition_1_name }}"
+    # Use this instead of /dev/sdc1
+    partition2: "/dev/{{ config.object_partition_2_name }}"
+
+  tasks:
+
+  # 1.&2. Configure unique items on the first/second storage node
+  # 
+  # this is done in the etc_network_interfaces file in the vm
+
+  # 3. Configure shared items on both storage nodes
+
+  # 3.a Copy the contents of the /etc/hosts file from the controller node and add the following to it
+  #
+  # this is done automatically in 00_preconfiguration/01_generate_host_files.yml
+
+  # 3.a Install and configure NTP using the instructions in the section called “Other nodes”
+  #
+  # This is not done because we are on the same machine. 
+  # If you want to do it in the basic environment, you are welcome.
+
+  # The images are created in the creation.sh file in the vm directory.
+  # Use partition1 and partition2 variables to reference the correct pertitions
+  # Neither use /dev/sdb1 nor /dev/sdc1.
+
+  - name: "3.c Install the supporting utility packages:"
+    apt: pkg={{item}} state=installed
+    with_items:
+    - xfsprogs 
+    - rsync
+
+  - name: "3.d Format the /dev/sdb1 and /dev/sdc1 partitions as XFS:"
+    shell: "mkfs.xfs {{ partition1 }}; mkfs.xfs {{ partition2 }}"
+
+  - name: "3.e Create the mount point directory structure:"
+    shell: "mkdir -p /srv/node/{{ config.object_partition_1_name }}; mkdir -p /srv/node/{{ config.object_partition_2_name }}"
+
+  - name: "3.f Edit the /etc/fstab file and add the following to it:"
+    lineinfile:
+      dest: /etc/fstab
+      create: yes
+      line: "{{ item }}"
+    with_items:
+    - "{{ partition1 }} /srv/node/{{ config.object_partition_1_name }} xfs noatime,nodiratime,nobarrier,logbufs=8 0 2"
+    - "{{ partition2 }} /srv/node/{{ config.object_partition_2_name }} xfs noatime,nodiratime,nobarrier,logbufs=8 0 2"
+
+  - name: "3.g Mount the devices"
+    shell: "mount /srv/node/{{ config.object_partition_1_name }}; mount /srv/node/{{ config.object_partition_2_name }}"
+
+
+  - name: 4.0 Get the host part of the IP 
+    shell: echo {{ inventory_hostname }}
+    register: host_ip
+
+  # 4. Edit the /etc/rsyncd.conf file
+  - name: "4. Edit the /etc/rsyncd.conf file"
+    # this was done in the file
+    template: src=rsyncd.conf.j2 dest=/etc/rsyncd.conf owner={{ ansible_user_id }}
+
+  - name: "5. Edit the /etc/default/rsync file and enable the rsync service"
+    lineinfile:
+      dest: /etc/default/rsync
+      create: yes
+      line: "{{ item }}"
+    with_items:
+    - "RSYNC_ENABLE=true"
+
+  - name: "6. Start the rsync service:"
+    service: 
+      name: "{{ item }}"
+      state: restarted
+    with_items:
+    - rsync 
+

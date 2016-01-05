@@ -1,0 +1,94 @@
+---
+# http://docs.openstack.org/kilo/install-guide/install/apt/content/glance-verify.html
+- name: Add the Image service > Verify Operation
+  hosts: controller
+  roles:
+    - config
+  sudo: True
+  gather_facts: False
+  tasks:
+
+  # 1. In each client environment script, configure the Image service client to use API version
+  # -------------------------------------------------------------------------------------------
+  #
+  # we already put "export OS_IMAGE_API_VERSION=2" into the admin-openrc.sh and demo-openrc.sh
+
+  # 2. Source the admin credentials to gain access to admin-only CLI commands
+  # -------------------------------------------------------------------------
+  #
+  # now we need to verify OS_IMAGE_API_VERSION
+
+  - name: 2.1 Source the admin credentials to gain access to admin-only CLI commands 2.0
+    shell: source {{ item }} && test "$OS_IMAGE_API_VERSION" == "2"
+    args:
+      executable: /bin/bash
+    with_items:
+    - admin-openrc.sh
+    - demo-openrc.sh
+
+  - name: 2.2 Check ansible environment admin credentials to gain access to admin-only CLI commands 2.0
+    shell: test "$OS_IMAGE_API_VERSION" = "2"
+    environment: config.environment.admin
+
+  - name: 2.3 Check ansible environment demo credentials to gain access to admin-only CLI commands 2.0
+    shell: test "$OS_IMAGE_API_VERSION" = "2"
+    environment: config.environment.demo
+
+  # 3. Create a temporary local directory
+  # -------------------------------------
+
+  - name: 3.1 Remove the temporary local directory and source image
+    # If a command in this file files this is necessairy to restart the file.
+    # It will be done in 7. either way.
+    file: path=/tmp/images state=absent
+
+  - name: 3.2 Create a temporary local directory
+    file: path=/tmp/images/default state=directory
+
+  # 4. Download the source image into it
+  # ------------------------------------
+
+  - name: 4. Download the source image into it
+    shell: "wget -P /tmp/images/default {{ config.default_image_url }}"
+
+  # 5. Upload the image to the Image service
+  # ----------------------------------------
+
+  - name: 5.1. Upload the image to the Image service using the QCOW2 disk format, bare container format, and public visibility so all projects can access it
+    # note that --is-public True was changed to --visibility public
+    shell: glance image-create \
+                  --name "{{ config.default_image_name }}" \
+                  --file /tmp/images/default/* \
+                  --disk-format qcow2 \
+                  --container-format bare \
+                  --visibility public
+    environment: config.environment.admin
+    register: glance_image_create
+
+  - name: 5.2. Check the output for name and visibility
+    assert:
+      that: 
+      - glance_image_create.stdout | search("name\s*\|\s*" + config.default_image_name)
+      - glance_image_create.stdout | search("visibility\s*\|\s*public")
+
+  # 6. Confirm upload of the image and validate attributes
+  # ------------------------------------------------------
+
+  - name: 6.1 Confirm upload of the image and validate attributes
+    shell: glance image-list
+    environment: config.environment.admin
+    register: glance_image_list
+
+  - name: 6.2 Check the output for {{ config.default_image_name }}
+    assert:
+      that:
+      - config.default_image_name in glance_image_list.stdout
+
+  # 7. Remove the temporary local directory and source image
+  # --------------------------------------------------------
+
+  - name: 7. Remove the temporary local directory and source image
+    file: path=/tmp/images state=absent
+
+
+

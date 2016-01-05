@@ -1,0 +1,5 @@
+---
+# http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_nova.html
+- include: 02_Install_and_configure_controller_node/main.yml
+- include: 03_Install_and_configure_a_compute_node/main.yml
+- include: 04_Verify_operation.yml

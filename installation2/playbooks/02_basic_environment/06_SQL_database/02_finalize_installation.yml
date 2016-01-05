@@ -1,0 +1,49 @@
+---
+# http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_basic_environment.html
+- name: Basic environment > SQL database > finalize installation
+  hosts: controller
+  gather_facts: True
+  sudo: yes
+  roles:
+  - config
+  tasks:
+
+  # 1. Restart the database service
+  # -------------------------------
+
+  - name: 1. Restart the database service
+    service: 
+      name: mysql
+      state: restarted
+
+  # 2. Secure the database service
+  # ------------------------------
+  #
+  # see http://injustfiveminutes.com/2014/08/25/ansible-mysql_secure_installation-playbook/
+
+  - name: 2.1 delete anonymous MySQL server user for {{ ansible_hostname }}
+    action: mysql_user user="" host="{{ ansible_hostname }}" state="absent"
+   
+  - name: 2.2 delete anonymous MySQL server user for localhost
+    action: mysql_user user="" state="absent"
+   
+  - name: 2.3 remove the MySQL test database
+    action: mysql_db db=test state=absent
+    
+    
+  # 'localhost' needs to be the last item for idempotency, see
+  # http://ansible.cc/docs/modules.html#mysql-user   
+  - name: 2.4 Change root user password on first run
+    mysql_user: login_user=root
+                login_password=''
+                name={{ config.mysql_login_user }}
+                password={{ config.mysql_login_password }}
+                priv=*.*:ALL,GRANT
+                host={{ item }}
+    with_items:
+      - "{{ ansible_hostname }}"
+      - 127.0.0.1
+      - ::1
+      - localhost
+
+

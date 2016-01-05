@@ -1,0 +1,9 @@
+---
+- name: "Verify Operation"
+  hosts: controller
+  roles:
+    - config
+  gather_facts: True
+  tasks:
+  - name: "TODO"
+    debug: msg="TODO"

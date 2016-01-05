@@ -1,0 +1,7 @@
+---
+# http://docs.openstack.org/kilo/install-guide/install/apt/content/section_neutron-networking.html
+- include: 03_Install_and_configure_controller_node/main.yml
+- include: 04_Install_and_configure_network_node/main.yml
+- include: 05_Install_and_configure_compute_node/main.yml
+- include: 06_Create_initial_networks/main.yml
+
