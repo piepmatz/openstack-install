@@ -1,0 +1,8 @@
+--- # as long as we haven't refactored the shell scripts into ansible playbooks
+    # run the rest of the install.sh during `vagrant up`
+- hosts: all
+  become: yes
+  tasks:
+    - name: Run install.sh
+      command: "sh {{ installation_folder }}/install.sh"
+
