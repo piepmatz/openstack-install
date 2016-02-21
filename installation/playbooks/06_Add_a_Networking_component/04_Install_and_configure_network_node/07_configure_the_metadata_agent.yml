@@ -18,7 +18,7 @@
       # 1.a In the [DEFAULT] section, configure access parameters
       - { option: 'auth_uri', value: 'http://{{ config.controller_node_hostname }}:5000' }
       - { option: 'auth_url', value: 'http://{{ config.controller_node_hostname }}:35357' }
-      - { option: 'auth_region', value: 'RegionOne' }
+      - { option: 'auth_region', value: '{{ region.name }}' }
       - { option: 'auth_plugin', value: 'password' }
       - { option: 'project_domain_id', value: 'default' }
       - { option: 'user_domain_id', value: 'default' }

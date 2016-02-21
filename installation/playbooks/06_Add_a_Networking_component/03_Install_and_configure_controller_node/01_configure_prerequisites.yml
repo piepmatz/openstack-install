@@ -61,5 +61,5 @@
                         --publicurl http://{{ config.controller_node_hostname }}:9696 
                         --adminurl http://{{ config.controller_node_hostname }}:9696 
                         --internalurl http://{{ config.controller_node_hostname }}:9696 
-                        --region RegionOne network'
+                        --region {{ region.name }} network'
 

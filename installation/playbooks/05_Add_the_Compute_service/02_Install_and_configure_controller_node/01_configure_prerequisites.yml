@@ -56,6 +56,6 @@
     # ------------------------------------------
   
     - name: 4. Create the Compute service API endpoint
-      shell: 'openstack endpoint create --publicurl http://{{ config.controller_node_hostname }}:8774/v2/%\(tenant_id\)s --internalurl http://{{ config.controller_node_hostname }}:8774/v2/%\(tenant_id\)s --adminurl http://{{ config.controller_node_hostname }}:8774/v2/%\(tenant_id\)s --region RegionOne compute'
+      shell: 'openstack endpoint create --publicurl http://{{ config.controller_node_hostname }}:8774/v2/%\(tenant_id\)s --internalurl http://{{ config.controller_node_hostname }}:8774/v2/%\(tenant_id\)s --adminurl http://{{ config.controller_node_hostname }}:8774/v2/%\(tenant_id\)s --region {{ region.name }} compute'
 
 
