@@ -57,4 +57,4 @@
   # ----------------------------------------
 
   - name: 4. Create the Image service API endpoint
-    shell: "openstack endpoint create --publicurl {{ config.glance_os_url }} --internalurl {{ config.glance_os_url }} --adminurl {{ config.glance_os_url }} --region RegionOne image"
+    shell: "openstack endpoint create --publicurl {{ config.glance_os_url }} --internalurl {{ config.glance_os_url }} --adminurl {{ config.glance_os_url }} --region {{ region.name }} image"

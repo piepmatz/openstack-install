@@ -89,7 +89,7 @@
       - { option: 'auth_plugin', value: 'password' }
       - { option: 'project_domain_id', value: 'default' }
       - { option: 'user_domain_id', value: 'default' }
-      - { option: 'region_name', value: 'RegionOne' }
+      - { option: 'region_name', value: '{{ region.name }}' }
       - { option: 'project_name', value: 'service' }
       - { option: 'username', value: 'nova' }
       - { option: 'password', value: '{{ config.nova_user_password }}' }
