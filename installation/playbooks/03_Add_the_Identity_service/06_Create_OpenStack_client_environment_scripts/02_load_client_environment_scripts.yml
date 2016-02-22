@@ -6,6 +6,6 @@
 - name: "Load the admin-openrc.sh file and request an authentication token"
   # This step requires the host file to resolve the hostname of the controller 
   # on all host as well as localhost.
-  shell: source ~/admin-openrc.sh && openstack token issue
+  shell: source /home/ubuntu/admin-openrc.sh && openstack token issue
   args:
     executable: /bin/bash
