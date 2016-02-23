@@ -9,7 +9,6 @@
   environment: "{{ config.environment.token }}"
   tasks:
     # http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_keystone.html
-    - include: 06_Create_OpenStack_client_environment_scripts/main.yml
     - include: master_region.yml
       when: region.role == "master"
     - include: 03_Create_the_API_endpoint.yml
