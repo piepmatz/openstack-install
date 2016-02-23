@@ -1,3 +1,5 @@
 ---
   - name: "Create the Identity service API endpoint"
-    shell: "openstack endpoint create --publicurl {{ config.identity_public_url }} --internalurl {{ config.identity_internal_url }} --adminurl {{ config.identity_admin_url }} --region {{ region.name }} identity"
+    shell: "source {{ ansible_user_dir}}/admin-openrc.sh && openstack endpoint create --publicurl {{ config.identity_public_url }} --internalurl {{ config.identity_internal_url }} --adminurl {{ config.identity_admin_url }} --region {{ region.name }} identity"
+    args:
+      executable: /bin/bash
