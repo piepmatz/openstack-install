@@ -6,6 +6,6 @@
 - name: "Load the admin-openrc.sh file and request an authentication token"
   # This step requires the host file to resolve the hostname of the controller 
   # on all host as well as localhost.
-  shell: source {{ ansible_user_dir}}/admin-openrc.sh && openstack token issue
+  shell: source {{ ansible_user_dir}}/admin-openrc.sh
   args:
     executable: /bin/bash
