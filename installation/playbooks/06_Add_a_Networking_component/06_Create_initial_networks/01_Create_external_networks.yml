@@ -10,7 +10,11 @@
 
   tasks:
   - name: "1. Create the external network"
-    shell: "neutron net-create ext-net --router:external --provider:physical_network external --provider:network_type flat"
+    shell: "source {{ ansible_user_dir}}/admin-openrc.sh && neutron net-create ext-net --router:external --provider:physical_network external --provider:network_type flat"
+    args:
+      executable: /bin/bash
 
   - name: "2. Create a subnet on the external network"
-    shell: "neutron subnet-create ext-net {{ config.external_network_cidr }} --name ext-subnet --allocation-pool start={{ config.floating_ip_start }},end={{ config.floating_ip_end }} --disable-dhcp --gateway {{ config.external_network_gateway }}"
+    shell: "source {{ ansible_user_dir}}/admin-openrc.sh && neutron subnet-create ext-net {{ config.external_network_cidr }} --name ext-subnet --allocation-pool start={{ config.floating_ip_start }},end={{ config.floating_ip_end }} --disable-dhcp --gateway {{ config.external_network_gateway }}"
+    args:
+      executable: /bin/bash

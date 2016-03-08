@@ -10,16 +10,26 @@
 
   tasks:
   - name: "1.2 Create the tenant network"
-    shell: "neutron net-create demo-net"
+    shell: "source {{ ansible_user_dir}}/admin-openrc.sh && neutron net-create demo-net"
+    args:
+      executable: /bin/bash
 
   - name: "2. Create a subnet on the tenant network"
-    shell: "neutron subnet-create demo-net {{ config.tenant_network_cidr }} --name demo-subnet --gateway {{ config.tenant_network_gateway }}"
+    shell: "source {{ ansible_user_dir}}/admin-openrc.sh && neutron subnet-create demo-net {{ config.tenant_network_cidr }} --name demo-subnet --gateway {{ config.tenant_network_gateway }}"
+    args:
+      executable: /bin/bash
 
   - name: "3.1 Create a router on the tenant network and attach the external and tenant networks to it"
-    shell: "neutron router-create demo-router"
+    shell: "source {{ ansible_user_dir}}/admin-openrc.sh && neutron router-create demo-router"
+    args:
+      executable: /bin/bash
 
   - name: "3.2 Attach the router to the demo tenant subnet"
-    shell: "neutron router-interface-add demo-router demo-subnet"
+    shell: "source {{ ansible_user_dir}}/admin-openrc.sh && neutron router-interface-add demo-router demo-subnet"
+    args:
+      executable: /bin/bash
 
   - name: "3.3 Attach the router to the external network by setting it as the gateway"
-    shell: "neutron router-gateway-set demo-router ext-net"
+    shell: "source {{ ansible_user_dir}}/admin-openrc.sh && neutron router-gateway-set demo-router ext-net"
+    args:
+      executable: /bin/bash

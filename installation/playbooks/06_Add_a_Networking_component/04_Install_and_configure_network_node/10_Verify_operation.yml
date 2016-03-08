@@ -23,7 +23,9 @@
       executable: /bin/bash
 
   - name: 2.2 List agents to verify successful launch of the neutron agents
-    shell: neutron agent-list
+    shell: source {{ ansible_user_dir}}/admin-openrc.sh && neutron agent-list
+    args:
+      executable: /bin/bash
     register: neutrol_agent_list
 
   - name: 2.3 Check that "Metadata agent", "Open vSwitch agent", "L3 agent" and, "DHCP agent" are alive

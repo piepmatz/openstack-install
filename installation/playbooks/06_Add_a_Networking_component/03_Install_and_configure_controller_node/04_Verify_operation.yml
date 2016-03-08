@@ -14,7 +14,9 @@
     wait_for: port=9696 connect_timeout=60
   
   - name: 2.1 List loaded extensions to verify successful launch of the neutron-server process
-    shell: neutron ext-list
+    shell: source {{ ansible_user_dir}}/admin-openrc.sh && neutron ext-list
+    args:
+      executable: /bin/bash
     environment: "{{ config.environment.admin }}"
     register: neutron_ext_list
 
