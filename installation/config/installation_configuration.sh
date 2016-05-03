@@ -218,7 +218,10 @@ vm_image_url='https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloud
 # If the hash is empty there will be no check. When you interrupt the download
 # you may need to delete $downloads_directory manually.
 # is ba8c94999ca0d5052ccc0d4b12b9aca4 for 'https://cloud-images.ubuntu.com/trusty/20150313/trusty-server-cloudimg-amd64-disk1.img'
-vm_image_md5_hash=
+vm_image_md5_hash=` \
+  wget -O- -q https://cloud-images.ubuntu.com/trusty/current/MD5SUMS | \
+    grep trusty-server-cloudimg-amd64-disk1.img | \
+      cut -d" " -f1`
 
 # downloaded_vm_image_folder is the folder where the downloaded vm image is
 # saved.
