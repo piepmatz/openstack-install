@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if ! tools/package_is_installed qemu-kvm
-then 
+then
 	# install qemu-kvm before libvirt
 	# This way libvirt recognized kvm.
 	# Otherwise this error occurs:
@@ -24,7 +24,15 @@ then
 	# http://wiki.libvirt.org/page/Failed_to_connect_to_the_hypervisor#Permission_denied
 	echo "setting permissions for all users to use the \"virsh\" command"
 	sudo sed -i '/unix_sock_rw_perms\s*=.*/c\unix_sock_rw_perms = "0777" # replaced by install_lib_virt.sh' /etc/libvirt/libvirtd.conf
-	sudo service libvirt-bin restart
 fi
 
+# make QEMU run as root
+for x in user group
+do
+	sudo sed -i "/^#$x\s*=.*/c\\$x = \"root\" # by install_lib_virt.sh" \
+		/etc/libvirt/qemu.conf
+done
+sudo sed -i "/^#dynamic_ownership\s*=.*/c\dynamic_ownership = 0 # by install_lib_virt.sh" \
+		/etc/libvirt/qemu.conf
 
+sudo service libvirt-bin restart
