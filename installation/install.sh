@@ -23,9 +23,6 @@ tools/step ./setup_virtual_machines.sh
 tools/step ./remove_aptcache_vm.sh
 tools/step ./snapshot_virtual_machines.sh initial
 
-date_of_installation_end=$(date +"%s")
-installation_duration=$(($date_of_installation_end-$date_of_installation_start))
-
 echo ---------------------------------------------------------
 
 tools/print_advice
