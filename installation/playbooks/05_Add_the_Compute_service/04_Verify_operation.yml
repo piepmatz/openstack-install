@@ -12,7 +12,7 @@
     - config
   become: False
   gather_facts: True
-  environment: config.environment.admin
+  environment: "{{ config.environment.admin }}"
   tasks:
 
   # 1. Source the admin credentials

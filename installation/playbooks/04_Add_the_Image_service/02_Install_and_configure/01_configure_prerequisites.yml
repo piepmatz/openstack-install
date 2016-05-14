@@ -6,7 +6,7 @@
     - config
   become: True
   gather_facts: False
-  environment: config.environment.admin
+  environment: "{{ config.environment.admin }}"
 
   tasks:
 
