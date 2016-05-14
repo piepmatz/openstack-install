@@ -1,10 +1,6 @@
 #!/bin/bash
 
-# start virtual machines
-for virtual_machine_name in `tools/vm_names`
-do
-	(virsh start $virtual_machine_name || exit 2) &
-done
+tools/start_all_vms
 
 # NOTE: The following steps can be done with ansible
 

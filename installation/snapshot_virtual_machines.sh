@@ -10,7 +10,8 @@ fi
 ./tools/list_domains | while read virtual_machine_name; do 
 	echo "------------------------------------------------------------"
 	echo $virtual_machine_name
-	virsh snapshot-create-as $virtual_machine_name --name $1 || exit 3
+	(virsh snapshot-create-as $virtual_machine_name --name $1 || exit 3) &
+	wait
 	virsh snapshot-list $virtual_machine_name
 done
 
