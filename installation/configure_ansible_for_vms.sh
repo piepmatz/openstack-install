@@ -66,7 +66,9 @@ echo "
 
 if [[ ! -f $variables_file ]] || ! cmp --silent $temp_variables_file $variables_file
 then
-	sudo mkdir -p $roles_variables_directory
+	(umask 022 && sudo mkdir -p $roles_variables_directory)
+
 	sudo rm -f $variables_file
 	sudo mv $temp_variables_file $variables_file
+	sudo chmod a+r $variables_file
 fi 
