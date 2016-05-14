@@ -14,3 +14,7 @@
 
 [aptcache]
 {{ aptcache_node_ip_address }}
+
+[all:vars]
+ansible_become_method=sudo
+ansible_become_pass=ubuntu
