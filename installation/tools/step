@@ -20,6 +20,4 @@ fi
 
 echo -n $step_status > step_status
 
-
-
-
+exit $step_status
