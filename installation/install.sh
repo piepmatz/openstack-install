@@ -1,14 +1,15 @@
 #!/bin/sh
 
+# fail instantly if a command fails
+set -e
+
 # We use the directory where this file is located in.
 # This way we can use relative paths.
 cd `dirname $0`
 
 tools/start_stepping
 
-date_of_installation_start=$(date +"%s")
-
-tools/step ./check_env.sh || exit $?
+tools/step ./check_env.sh
 tools/step ./install_tools.sh
 tools/step ./install_ansible.sh
 tools/step ./create_ssh_keys.sh
@@ -24,6 +25,7 @@ tools/step ./snapshot_virtual_machines.sh initial
 
 date_of_installation_end=$(date +"%s")
 installation_duration=$(($date_of_installation_end-$date_of_installation_start))
+
 echo ---------------------------------------------------------
-echo "Installation took $(($installation_duration / 60))m $(($installation_duration % 60))s."
+
 tools/print_advice

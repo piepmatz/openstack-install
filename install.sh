@@ -2,5 +2,5 @@
 
 (
   cd "`dirname $0`/installation/"
-  ./install.sh $*
+  env time ./install.sh $*
 )
