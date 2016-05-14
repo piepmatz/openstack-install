@@ -1,7 +1,7 @@
 ---
 - name: Preconfiguration > update german locale
   hosts: all
-  sudo: yes
+  become: yes
   tasks:
 
   - name: "Build German locale to avoid problems with dev machines"

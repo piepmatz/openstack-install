@@ -2,7 +2,7 @@
 ---
 - name: Preconfiguration > deactivate cloud-init
   hosts: all
-  sudo: yes
+  become: yes
   tasks:
 
   - name: "clear /etc/cloud/cloud.cfg"

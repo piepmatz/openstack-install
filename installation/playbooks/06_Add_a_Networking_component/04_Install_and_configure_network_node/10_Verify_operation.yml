@@ -4,7 +4,7 @@
   hosts: network
   roles:
     - config
-  sudo: True
+  become: True
   gather_facts: False
   # Source the admin credentials to gain access to admin-only CLI commands
   environment: config.environment.admin

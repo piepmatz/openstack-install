@@ -2,7 +2,7 @@
 # http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-client-environment-scripts.html
 - name: Add the Identity service > Create OpenStack client environment scripts > create the scripts
   hosts: localhost:all
-  sudo: False
+  become: False
   roles: 
   - config  
   tasks:

@@ -3,7 +3,7 @@
 - name: Basic environment > Message queue > install the message queue service
   hosts: all
   gather_facts: False
-  sudo: yes
+  become: yes
   tasks:
 
   - name: Install the package

@@ -10,7 +10,7 @@
   hosts: controller
   roles:
     - config
-  sudo: False
+  become: False
   gather_facts: True
   environment: config.environment.admin
   tasks:

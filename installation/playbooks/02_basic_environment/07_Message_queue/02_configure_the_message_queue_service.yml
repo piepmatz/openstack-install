@@ -3,7 +3,7 @@
 - name: Basic environment > Message queue > configure the message queue service
   hosts: all
   gather_facts: False
-  sudo: yes
+  become: yes
   roles:
   - config
   tasks:

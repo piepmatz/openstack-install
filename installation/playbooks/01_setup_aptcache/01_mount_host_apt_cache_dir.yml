@@ -2,7 +2,7 @@
 # http://www.linux-kvm.org/page/9p_virtio
 - name: mount the shared filesystem for aptcache
   hosts: aptcache
-  sudo: True
+  become: True
   gather_facts: False
 
   tasks:

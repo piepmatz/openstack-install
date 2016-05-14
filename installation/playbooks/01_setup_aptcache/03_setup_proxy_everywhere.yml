@@ -2,7 +2,7 @@
 # https://www.unix-ag.uni-kl.de/~bloch/acng/html/config-servquick.html#config-client
 - name: set aptcache as proxy server for apt
   hosts: all
-  sudo: True
+  become: True
 
   tasks: 
   - name: "set proxy"

@@ -6,11 +6,11 @@
 ---
 - name: Preconfiguration > generate host files
   hosts: localhost:all
-  sudo: yes
-  # ansible should only ask for the sudo password of localhost
+  become: yes
+  # ansible should only ask for the become password of localhost
   # https://github.com/ansible/ansible/issues/1227
-  # start this with --ask-sudo-pass
-  # http://stackoverflow.com/questions/21870083/specify-sudo-password-for-ansible
+  # start this with --ask-become-pass
+  # http://stackoverflow.com/questions/21870083
   tasks:
 
   - name: "remove old hostfile entries"

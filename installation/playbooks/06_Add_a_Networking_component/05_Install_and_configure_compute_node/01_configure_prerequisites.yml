@@ -4,7 +4,7 @@
   hosts: compute
   roles:
     - config
-  sudo: True
+  become: True
   gather_facts: False
   tasks:
     - name: "1. Edit the /etc/sysctl.conf file to contain the following parameters"

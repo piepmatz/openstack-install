@@ -4,7 +4,7 @@
   hosts: network
   roles:
     - config
-  sudo: True
+  become: True
   gather_facts: False
   tasks:
 
@@ -37,7 +37,7 @@
   hosts: controller
   roles:
     - config
-  sudo: True
+  become: True
   gather_facts: False
   tasks:
     

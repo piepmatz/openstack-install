@@ -4,7 +4,7 @@
   hosts: controller
   roles:
     - config
-  sudo: True
+  become: True
   gather_facts: False
   # ERROR: openstack Authorization Failed: Cannot authenticate without an auth_url
   environment: config.environment.token

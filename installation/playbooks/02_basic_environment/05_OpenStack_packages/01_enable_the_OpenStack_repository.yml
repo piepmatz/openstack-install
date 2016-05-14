@@ -3,8 +3,8 @@
 - name: Basic environment > OpenStack packages > enable the OpenStack repository
   hosts: all:!aptcache
   # see https://github.com/ansible/ansible/issues/4355#issuecomment-25623433
-  # for sudo: yes
-  sudo: yes
+  # for become: yes
+  become: yes
   gather_facts: False
   tasks:
 

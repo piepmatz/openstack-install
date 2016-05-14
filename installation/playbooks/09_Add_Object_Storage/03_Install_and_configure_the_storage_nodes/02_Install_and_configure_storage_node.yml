@@ -3,7 +3,7 @@
   hosts: object
   roles:
     - config
-  sudo: True
+  become: True
   gather_facts: True
   tasks:
   - name: "Install the packages"

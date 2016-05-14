@@ -2,7 +2,7 @@
 # http://docs.openstack.org/kilo/install-guide/install/apt/content/neutron-compute-node.html
 - name:  "Add a networking component > Install and configure compute node > install the Networking components"
   hosts: compute
-  sudo: True
+  become: True
   gather_facts: False
   tasks:
 

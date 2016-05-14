@@ -2,7 +2,7 @@
 # http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_basic_environment.html
 - name: Basic environment > OpenStack packages > finalize installation
   hosts: all
-  sudo: yes
+  become: yes
   gather_facts: False
   tasks:
 

@@ -3,7 +3,7 @@
   hosts: object
   roles:
     - config
-  sudo: True
+  become: True
   # gather_facts: False is important for 4.0 Get the host part of the IP 
   gather_facts: True
   environment: config.environment.admin

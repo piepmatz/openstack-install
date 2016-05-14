@@ -3,7 +3,7 @@
 - name: Basic environment > SQL database > install and configure the database server
   hosts: controller
   gather_facts: False
-  sudo: yes
+  become: yes
   roles:
   - config
   tasks:
