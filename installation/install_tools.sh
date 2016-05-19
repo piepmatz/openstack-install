@@ -20,8 +20,8 @@ packages+=" python-pip"
 
 tools/install_latest_package $packages
 
-# install Jinja2 for template instanciation
-if ! python -c "import jinja2"
-then
-	sudo pip install --upgrade Jinja2
-fi
+# for template instanciation
+tools/install_latest_pip_package Jinja2
+
+# for running some os_… Ansible modules
+tools/install_latest_pip_package shade
