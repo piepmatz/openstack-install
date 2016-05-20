@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 packages=""
 
 # for the filename command
@@ -18,10 +20,17 @@ packages+=" virt-manager"
 # for pip
 packages+=" python-pip"
 
+# for compiling python packages using pip
+packages+=" python2.7-dev"
+
 tools/install_latest_package $packages
 
 # for template instanciation
 tools/install_latest_pip_package Jinja2
 
 # for running some os_… Ansible modules
-tools/install_latest_pip_package shade
+#   see this bug: https://storyboard.openstack.org/#!/story/2000589
+if ! python -c"import shade" > /dev/null
+then
+	(umask 022; tools/install_latest_pip_package --ignore-installed --upgrade shade)
+fi
