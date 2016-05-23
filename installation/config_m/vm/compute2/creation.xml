@@ -1,7 +1,12 @@
 <domain type='kvm'>
     <name>{{ vm_name }}</name>
-    <memory>1024288</memory>
-    <vcpu>1</vcpu>
+    <memory unit='GiB'>10</memory>
+    <vcpu>4</vcpu>
+    
+    <cpu>
+    <model>Westmere</model>
+        <feature policy='require' name='vmx' />
+    </cpu>
 
     <features>
         <acpi/>
@@ -18,20 +23,21 @@
             <source file='{{ vm_image_file }}'/>
             <target dev='vda' bus='virtio'/>
         </disk>
-        <disk type='file' device='disk'>
-            <source file='{{ user_data_vm_config_image }}'/>
+        <disk type='file' device='disk' snapshot='no'>
+            <driver type='qcow2' cache='none'/>
+            <source file='{{ user_data_vm_config_image_qcow }}'/>
             <target dev='vdb' bus='virtio'/>
         </disk>
-        <filesystem type='mount' accessmode="mapped">
-            <source dir= '{{ apt_cache_dir }}'/>
-            <target dir='APTCACHE'/>
-        </filesystem>
-
 
         <interface type='network'>
             <source network='management'/>
             <model type='virtio'/>
         </interface>
+        <interface type='network'>
+            <source network='neutron-tunnel'/>
+            <model type='virtio'/>
+        </interface>
+
 
         <input type='mouse' bus='ps2'/>
             <input type='keyboard' bus='ps2'/>

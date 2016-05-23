@@ -1,7 +1,7 @@
 <domain type='kvm'>
     <name>{{ vm_name }}</name>
-    <memory>6145728</memory>
-    <vcpu>1</vcpu>
+    <memory unit='GiB'>8</memory>
+    <vcpu>2</vcpu>
 
     <features>
         <acpi/>
