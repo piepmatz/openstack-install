@@ -14,6 +14,7 @@
       state: restarted
     with_items:
     - nova-api
+    - nova-api-metadata
     - nova-cert
     - nova-consoleauth
     - nova-scheduler
