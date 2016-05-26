@@ -10,6 +10,7 @@
 # This is partly done by wait_for_virtual_machines_to_start.sh.
 - name: Preconfiguration > add ssh keys of hostnames to known hosts
   hosts: localhost
+  become: false
   roles:
   - config
   tasks:

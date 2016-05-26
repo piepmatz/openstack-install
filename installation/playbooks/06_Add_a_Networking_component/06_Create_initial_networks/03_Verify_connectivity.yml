@@ -2,9 +2,9 @@
 # http://docs.openstack.org/kilo/install-guide/install/apt/content/neutron_initial-networks-verify.html
 - name:  "Add a networking component > Create initial networks > Verify network connectivity"
   hosts: localhost
+  become: false
   roles:
     - config
-  become: True
   gather_facts: False
   tasks:
 
