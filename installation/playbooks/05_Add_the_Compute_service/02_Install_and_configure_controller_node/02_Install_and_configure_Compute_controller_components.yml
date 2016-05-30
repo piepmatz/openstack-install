@@ -15,7 +15,6 @@
       apt: pkg={{item}} state=installed
       with_items:
       - nova-api
-      - nova-api-metadata
       - nova-cert
       - nova-conductor
       - nova-consoleauth
