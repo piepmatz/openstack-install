@@ -42,6 +42,7 @@ tenant_router_gateway_external_ip_address=$floating_ip_start
 
 tenant_network_cidr=$ip_demo_prefix.0$network_cidr_suffix
 tenant_network_gateway=$ip_demo_prefix.1
+tenant_network_dns_server=8.8.8.8
 
 test_node_ip_address=$controller_node_ip_address
 
